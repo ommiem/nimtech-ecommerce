@@ -1,0 +1,55 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-B0EkDkmA.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "nimtech",
+    "names": [
+      "app.css",
+      "nimtech.css"
+    ]
+  },
+  "resources/css/themes/aspirenoted.css": {
+    "file": "assets/aspirenoted-B9R_VucZ.css",
+    "src": "resources/css/themes/aspirenoted.css",
+    "isEntry": true,
+    "name": "aspirenoted",
+    "names": [
+      "aspirenoted.css"
+    ]
+  },
+  "resources/css/themes/nimtech.css": {
+    "file": "assets/app-B0EkDkmA.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "nimtech",
+    "names": [
+      "app.css",
+      "nimtech.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Dj4d38Wz.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/themes/aspirenoted.js": {
+    "file": "assets/aspirenoted-BKdCM19e.js",
+    "name": "aspirenoted",
+    "src": "resources/js/themes/aspirenoted.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/themes/nimtech.js": {
+    "file": "assets/nimtech-BKdCM19e.js",
+    "name": "nimtech",
+    "src": "resources/js/themes/nimtech.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  }
+}

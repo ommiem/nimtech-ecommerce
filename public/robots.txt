@@ -1,0 +1,17 @@
+User-agent: *
+# Block private and non-indexable areas
+Disallow: /admin
+Disallow: /account
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /password
+Disallow: /email
+Disallow: /mpesa
+
+# Allow everything else
+Allow: /
+
+# Explicit sitemap (absolute URL preferred by crawlers)
+Sitemap: https://nimtech.co.ke/sitemap.xml

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">Aspire Noted Bodycare and Fragrances</title>
+  <desc id="desc">Aspire Noted logo with blue, black, and red wordmark.</desc>
+  <rect width="960" height="360" fill="#ffffff"/>
+  <g transform="translate(72 68)">
+    <text x="0" y="130" font-family="Georgia, 'Times New Roman', serif" font-size="176" fill="#0B6FCB">A</text>
+    <text x="182" y="130" font-family="Georgia, 'Times New Roman', serif" font-size="176" font-weight="700" fill="#050505">spire</text>
+    <ellipse cx="674" cy="28" rx="22" ry="42" transform="rotate(38 674 28)" fill="#D90B34"/>
+    <text x="404" y="220" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="700" letter-spacing="13" fill="#D90B34">Noted</text>
+    <text x="16" y="292" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="500" letter-spacing="10" fill="#4A82E8">Bodycare &amp; Fragrances</text>
+  </g>
+</svg>
