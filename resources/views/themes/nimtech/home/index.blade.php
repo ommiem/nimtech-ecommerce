@@ -54,45 +54,36 @@
     <div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
       <div class="px-4 py-7 sm:px-7 lg:px-8 lg:py-9">
         <div class="inline-flex items-center rounded border border-red-100 bg-red-50 px-3 py-1 text-xs font-medium text-red-700">
-          Nairobi electronics store
+          Technology made easier
         </div>
         <h1 class="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-gray-950 sm:text-4xl lg:text-5xl">
-          Phones, Laptops and Electronics in Kenya
+          Find the Right Tech for Every Day
         </h1>
         <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-600 sm:text-base">
-          Compare live prices, warranty-backed devices, and curated tech deals from Nimtech. Shop online or visit our Nairobi CBD store for practical buying help.
+          Discover dependable phones, laptops and accessories for work, study and entertainment. Nimtech gives you clear product details, helpful advice and convenient ordering across Kenya.
         </p>
 
-        <form action="{{ route('products.index') }}" method="GET" class="mt-5 flex flex-col gap-2 sm:flex-row">
-          <label class="sr-only" for="home-search">Search products</label>
-          <div class="relative flex-1">
-            <input id="home-search" type="text" name="q" value="{{ request('q') }}" placeholder="Search iPhone, HP laptop, earbuds..." class="w-full rounded border border-gray-300 px-4 py-3 pr-11 text-base focus:border-blue-600 focus:ring-2 focus:ring-blue-500" />
-            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10.5 3a7.5 7.5 0 105.236 12.764l3.75 3.75a.75.75 0 101.06-1.06l-3.75-3.75A7.5 7.5 0 0010.5 3zm-6 7.5a6 6 0 1110.91 3.546.75.75 0 00-.126.126A6 6 0 014.5 10.5z" clip-rule="evenodd" /></svg>
-            </span>
-          </div>
-          <button class="inline-flex items-center justify-center rounded bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">Search</button>
-        </form>
+        <div class="mt-5"><a href="{{ route('products.index') }}" class="inline-flex items-center justify-center rounded bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700">Explore All Products</a></div>
 
         <div class="mt-5 flex flex-wrap gap-2 text-sm">
-          <a href="{{ route('seo.phones') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Phones</a>
-          <a href="{{ route('seo.laptops') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Laptops</a>
-          <a href="{{ route('deals.index') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Deals</a>
-          <a href="{{ route('products.index') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">All products</a>
+          <a href="{{ route('seo.phones') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Shop phones</a>
+          <a href="{{ route('seo.laptops') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Explore laptops</a>
+          <a href="{{ route('deals.index') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">View deals</a>
+          <a href="{{ route('products.index') }}" class="rounded border border-gray-200 px-3 py-2 font-medium hover:border-red-200 hover:bg-red-50">Browse all</a>
         </div>
 
         <div class="mt-6 grid grid-cols-3 gap-3 border-t pt-5 text-sm">
           <div>
-            <div class="text-lg font-semibold text-gray-950">{{ ($newProducts ?? collect())->count() }}+</div>
-            <div class="text-xs text-gray-500">New picks</div>
+            <div class="text-lg font-semibold text-gray-950">Clear</div>
+            <div class="text-xs text-gray-500">Product details</div>
           </div>
           <div>
-            <div class="text-lg font-semibold text-gray-950">{{ ($popularProducts ?? collect())->count() }}+</div>
-            <div class="text-xs text-gray-500">Popular items</div>
+            <div class="text-lg font-semibold text-gray-950">Helpful</div>
+            <div class="text-xs text-gray-500">Buying support</div>
           </div>
           <div>
-            <div class="text-lg font-semibold text-gray-950">KES</div>
-            <div class="text-xs text-gray-500">Local pricing</div>
+            <div class="text-lg font-semibold text-gray-950">Kenya</div>
+            <div class="text-xs text-gray-500">Local service</div>
           </div>
         </div>
       </div>
@@ -399,4 +390,3 @@
     </div>
   </section>
 @endsection
-

@@ -1,16 +1,15 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-B0EkDkmA.css",
+    "file": "assets/app-qPPPiK3s.css",
     "src": "resources/css/app.css",
     "isEntry": true,
-    "name": "nimtech",
+    "name": "app",
     "names": [
-      "app.css",
-      "nimtech.css"
+      "app.css"
     ]
   },
   "resources/css/themes/aspirenoted.css": {
-    "file": "assets/aspirenoted-B9R_VucZ.css",
+    "file": "assets/aspirenoted-DzIS5CAm.css",
     "src": "resources/css/themes/aspirenoted.css",
     "isEntry": true,
     "name": "aspirenoted",
@@ -19,12 +18,11 @@
     ]
   },
   "resources/css/themes/nimtech.css": {
-    "file": "assets/app-B0EkDkmA.css",
-    "src": "resources/css/app.css",
+    "file": "assets/nimtech-B2ZTtPYs.css",
+    "src": "resources/css/themes/nimtech.css",
     "isEntry": true,
     "name": "nimtech",
     "names": [
-      "app.css",
       "nimtech.css"
     ]
   },

@@ -24,6 +24,8 @@
     <link rel="canonical" href="{{ $canonicalUrl }}">
     @if(!empty($settings->favicon_path))
       <link rel="icon" href="{{ asset('storage/'.$settings->favicon_path) }}" type="image/png">
+    @else
+      <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     @endif
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $metaTitle }}">
@@ -49,6 +51,7 @@
     @else
       @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
+    <link rel="stylesheet" href="{{ asset('brand/nimtech-theme.css') }}">
     @php
       $primary = $settings->theme_color ?? '#2563eb';
     @endphp
@@ -104,11 +107,7 @@
         <div class="mx-auto grid max-w-7xl grid-cols-12 items-center gap-3 px-4 py-3 md:min-h-[76px]">
             <div class="col-span-7 flex min-w-0 items-center gap-3 md:col-span-3">
                 <a href="{{ route('home') }}" class="flex h-12 min-w-0 items-center" title="{{ $settings->site_name ?? 'Shoply' }}">
-                    @if(!empty($settings->logo_path))
-                      <img src="{{ asset('storage/'.$settings->logo_path) }}" alt="{{ $settings->site_name ?? 'Shoply' }}" class="max-h-10 w-auto max-w-[190px] object-contain md:max-h-11 md:max-w-[210px]">
-                    @else
-                      <span class="truncate text-2xl font-semibold tracking-tight leading-none md:text-3xl">{{ $settings->site_name ?? 'Shoply' }}</span>
-                    @endif
+                    <span class="truncate text-2xl font-semibold tracking-tight leading-none md:text-3xl">nimtech.co.ke</span>
                 </a>
                 @auth
                     @if(auth()->user()->isAdmin())

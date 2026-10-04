@@ -1,0 +1,14 @@
+:root {
+  --nimtech-red: #e5252a;
+  --nimtech-navy: #07101f;
+  --nimtech-page: #f5f7fa;
+  --nimtech-muted: #667085;
+  --nimtech-whatsapp: #16a34a;
+}
+
+body { background-color: var(--nimtech-page); }
+.bg-red-600, .bg-blue-600 { background-color: var(--nimtech-red) !important; }
+.text-red-600, .text-blue-600, .text-blue-700 { color: var(--nimtech-red) !important; }
+.bg-slate-950 { background-color: var(--nimtech-navy) !important; }
+.bg-green-600 { background-color: var(--nimtech-whatsapp) !important; }
+.border-red-700 { border-color: #b91c1c !important; }

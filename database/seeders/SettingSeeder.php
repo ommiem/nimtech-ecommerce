@@ -14,11 +14,11 @@ class SettingSeeder extends Seeder
                 'site_name' => 'Nimtech',
                 'contact_email' => 'support@nimtech.co.ke',
                 'contact_phone' => '+254 711 948 136',
-                'contact_address' => 'Nairobi, Kenya',
+                'contact_address' => 'Rural Urban Credit Finance House, Shop D2, Opposite National Archives, Nairobi CBD, Kenya',
                 'currency_code' => 'KES',
                 'currency_symbol' => 'KES',
                 'currency_position' => 'left',
-                'theme_color' => '#ef2f2f',
+                'theme_color' => '#E5252A',
                 'active_theme' => 'nimtech',
             ]);
         }
