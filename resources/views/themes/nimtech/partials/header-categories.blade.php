@@ -1,125 +1,61 @@
 @php
-  $settings = \App\Models\Setting::getCached();
-  $headerCategories = \App\Models\Category::query()
-      ->orderByDesc('is_featured')
-      ->orderByRaw('COALESCE(sort_order, 999999) asc')
-      ->orderBy('name')
-      ->take(10)
-      ->get();
-  $storedSpecialTiles = json_decode((string) ($settings->header_special_tiles ?? '[]'), true);
-  $storedSpecialTiles = is_array($storedSpecialTiles) ? $storedSpecialTiles : [];
-  $specialTiles = !empty($storedSpecialTiles) ? $storedSpecialTiles : config('header.special_tiles', []);
-  $specialTiles = array_slice($specialTiles, 0, 2);
+  $menus = [
+    'Smartphones' => ['Foldable Phones','Google Pixel Phones','HMD Phones','Honor Phones','Infinix Phones','Itel Phones','Motorola Phones','Nothing Phones','OnePlus Phones','Oppo Phones','Poco Phones','Realme Phones','Redmi Phones','Tecno Phones','Vivo Phones','Xiaomi Phones'],
+    'Samsung' => ['Samsung Phones','Galaxy Buds','Galaxy Tablets','Samsung Accessories','Galaxy Watches'],
+    'Apple' => ['Apple iPhone','Apple iPad','MacBooks','AirPods','Apple Watch','Apple Pencil','iMac','Apple Accessories'],
+    'Laptops' => ['HP Laptops','Dell Laptops','Lenovo Laptops','Acer Laptops','ASUS Laptops','MacBooks','Gaming Laptops','2-in-1 Touchscreen Laptops'],
+    'Mobile Accessories' => ['Smartwatches','Chargers','Powerbanks','Smart Bands','Media Streamers','Phone Covers','Screen Protectors','Phone Stands'],
+    'Audio' => ['Buds','Speakers','Headphones','In-Ear Headphones','Soundbars','Microphones'],
+    'Gaming' => ['Gaming Consoles','Gaming Controllers','Gaming Headsets','Gaming Phones','Nintendo','PS5 Games'],
+    'Storage' => ['Flash Drives','SSDs','Hard Drives','Memory Cards','USB Hubs'],
+    'Tablets' => ['Amazon Tablets','Apple iPad','ElimuTab','Galaxy Tablets','Kids Tablets','Modio Tablets','reMarkable'],
+    'TV Remotes' => ['Samsung TV Remotes','LG TV Remotes','Sony TV Remotes','Hisense TV Remotes','TCL TV Remotes','Vitron TV Remotes','Universal TV Remotes'],
+  ];
+  $menuLandingRoutes = [
+    'Smartphones' => route('seo.phones'),
+    'Samsung' => route('seo.samsung-kenya'),
+    'Apple' => route('seo.iphone-kenya'),
+    'Laptops' => route('seo.laptops'),
+  ];
 @endphp
-@if($headerCategories->count())
-<div class="bg-white border-b">
-  <div
-    x-data="{
-      showAll:false,
-      timer:null,
-      paused:false,
-      scroll(n){ this.$refs.row.scrollBy({left:n, behavior:'smooth'}) },
-      next(){
-        const row = this.$refs.row;
-        if (!row || this.paused || row.scrollWidth <= row.clientWidth) return;
-        const nearEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 8;
-        if (nearEnd) row.scrollTo({left:0, behavior:'smooth'});
-        else row.scrollBy({left:220, behavior:'smooth'});
-      },
-      start(){
-        this.stop();
-        this.timer = setInterval(() => this.next(), 2800);
-      },
-      stop(){
-        if (this.timer) clearInterval(this.timer);
-        this.timer = null;
-      }
-    }"
-    x-init="start()"
-    @mouseenter="paused=true"
-    @mouseleave="paused=false"
-    @focusin="paused=true"
-    @focusout="paused=false"
-    class="relative max-w-7xl mx-auto px-4 py-3"
-  >
-    <button type="button" class="hidden md:flex absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white border rounded-full w-8 h-8 items-center justify-center shadow" @click="scroll(-300)" aria-label="Scroll left">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
-    </button>
-    <div class="overflow-x-auto scroll-smooth no-scrollbar" x-ref="row">
-      <div class="flex min-w-max items-stretch gap-6">
-        @foreach($specialTiles as $tile)
-          @php($href = str_starts_with($tile['url'] ?? '#','http') ? $tile['url'] : url($tile['url'] ?? '#'))
-          @php($tileImage = (string) ($tile['image'] ?? ''))
-          @php($tileImageSrc = $tileImage !== '' ? (\Illuminate\Support\Str::startsWith($tileImage, ['http://', 'https://']) ? $tileImage : (\Illuminate\Support\Str::startsWith($tileImage, ['images/', 'storage/']) ? asset($tileImage) : asset('storage/'.$tileImage))) : null)
-          <a href="{{ $href }}" class="w-28 flex-shrink-0 text-center sm:w-32">
-            <div class="mx-auto h-16 w-16 overflow-hidden rounded-xl {{ $tile['bg'] ?? 'bg-gray-900 text-white' }} flex items-center justify-center sm:h-20 sm:w-20">
-              @if($tileImageSrc)
-                <img src="{{ $tileImageSrc }}" alt="{{ $tile['label'] ?? '' }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-              @else
-                <span class="text-xs font-medium px-1">{{ $tile['label'] ?? '' }}</span>
-              @endif
-            </div>
-            <div class="mt-1 text-[11px] sm:text-xs text-gray-800">{{ $tile['label'] ?? '' }}</div>
-          </a>
-        @endforeach
-        @foreach($headerCategories as $cat)
-          @php($thumb = $cat->image_path ?: $cat->products()->whereNotNull('image')->latest('id')->value('image'))
-          <a href="{{ route('categories.show', $cat->canonical_slug) }}" class="w-28 flex-shrink-0 text-center sm:w-32">
-            <div class="mx-auto h-16 w-16 overflow-hidden rounded-xl border bg-gray-100 sm:h-20 sm:w-20">
-              @if($thumb)
-                <img src="{{ image_src($thumb) }}" alt="{{ $cat->name }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-              @else
-                <div class="h-full w-full flex items-center justify-center text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15m-15 4.5h15m-15 4.5h15"/></svg>
-                </div>
-              @endif
-            </div>
-            <div class="mt-1 text-[11px] sm:text-xs text-gray-800">{{ \Illuminate\Support\Str::limit($cat->name, 18) }}</div>
-          </a>
-        @endforeach
-        <button type="button" @click="showAll=true" class="w-28 flex-shrink-0 text-center sm:w-32">
-          <div class="mx-auto flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border bg-white sm:h-20 sm:w-20">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6 text-gray-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
-          </div>
-          <div class="mt-1 text-[11px] sm:text-xs text-gray-800">All</div>
-        </button>
-      </div>
-    </div>
-    <button type="button" class="hidden md:flex absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white border rounded-full w-8 h-8 items-center justify-center shadow" @click="scroll(300)" aria-label="Scroll right">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-    </button>
-  </div>
-  <!-- All categories modal (teleported to body to escape sticky contexts) -->
-  <template x-teleport="body">
-    <div x-show="showAll" x-transition.opacity class="fixed inset-0 z-[999] overflow-y-auto" @keydown.escape.window="showAll=false">
-      <div class="min-h-full flex items-center justify-center p-4">
-        <div class="fixed inset-0 bg-black/40" @click="showAll=false"></div>
-        <div class="relative bg-white rounded shadow-xl w-[92vw] max-w-4xl p-4">
-          <div class="flex items-center justify-between mb-3">
-            <div class="font-semibold">All Categories</div>
-            <button class="p-2" @click="showAll=false" aria-label="Close">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            @foreach(\App\Models\Category::orderByDesc('is_featured')->orderByRaw('COALESCE(sort_order,999999) asc')->orderBy('name')->get() as $cat)
-              @php($thumb = $cat->image_path ?: $cat->products()->whereNotNull('image')->latest('id')->value('image'))
-              <a href="{{ route('categories.show', $cat->canonical_slug) }}" class="group bg-white border rounded overflow-hidden hover:shadow-sm text-center">
-                <div class="aspect-[4/3] w-full bg-gray-100 flex items-center justify-center">
-                  @if($thumb)
-                    <img src="{{ image_src($thumb) }}" alt="{{ $cat->name }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-                  @else
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8 text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15m-15 4.5h15m-15 4.5h15"/></svg>
-                  @endif
-                </div>
-                <div class="p-2 text-xs font-medium group-hover:text-blue-700">{{ $cat->name }}</div>
-              </a>
-            @endforeach
-          </div>
+<nav class="nimtech-category-shell border-b bg-white" aria-label="Product categories">
+  <div class="nimtech-category-row mx-auto max-w-7xl px-4">
+    @foreach($menus as $menuLabel => $items)
+      <details class="nimtech-nav-dropdown">
+        <summary>{{ $menuLabel }}</summary>
+        <div class="nimtech-nav-menu">
+          @if(isset($menuLandingRoutes[$menuLabel]))
+            <a href="{{ $menuLandingRoutes[$menuLabel] }}" class="font-semibold">Shop all {{ $menuLabel }}</a>
+          @endif
+          @foreach($items as $item)
+            <a href="{{ route('products.index', ['q' => $item]) }}">{{ $item }}</a>
+          @endforeach
         </div>
-      </div>
-    </div>
-  </template>
-</div>
-@endif
+      </details>
+    @endforeach
+  </div>
+</nav>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const menus = Array.from(document.querySelectorAll('.nimtech-nav-dropdown'));
+    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const closeOthers = active => menus.forEach(menu => { if (menu !== active) menu.open = false; });
 
+    menus.forEach(menu => {
+      menu.addEventListener('toggle', () => { if (menu.open) closeOthers(menu); });
+      menu.addEventListener('mouseenter', () => {
+        if (hoverCapable.matches) { closeOthers(menu); menu.open = true; }
+      });
+      menu.addEventListener('mouseleave', () => {
+        if (hoverCapable.matches) menu.open = false;
+      });
+    });
+
+    document.addEventListener('pointerdown', event => {
+      if (!event.target.closest('.nimtech-nav-dropdown')) menus.forEach(menu => menu.open = false);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') menus.forEach(menu => menu.open = false);
+    });
+  });
+</script>

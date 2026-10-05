@@ -103,60 +103,64 @@
             </div>
         </div>
     </div>
-    <header class="sticky top-0 z-40 border-b bg-white" x-data="{catOpen:false}">
-        <div class="mx-auto grid max-w-7xl grid-cols-12 items-center gap-3 px-4 py-3 md:min-h-[76px]">
-            <div class="col-span-7 flex min-w-0 items-center gap-3 md:col-span-3">
-                <a href="{{ route('home') }}" class="flex h-12 min-w-0 items-center" title="{{ $settings->site_name ?? 'Shoply' }}">
-                    <span class="truncate text-2xl font-semibold tracking-tight leading-none md:text-3xl">nimtech.co.ke</span>
+    @php
+      $__cartCount = \App\Support\Cart::count();
+      $__cartSubtotal = data_get(\App\Support\Cart::details(), 'subtotal', 0);
+      $__headerCategories = \App\Models\Category::query()->orderBy('name')->get();
+    @endphp
+    <header class="sticky top-0 z-40 border-b bg-white">
+        <div class="nimtech-store-header mx-auto max-w-7xl px-4 py-4 md:py-5">
+            <div class="flex min-w-0 items-center gap-3">
+                <a href="{{ route('home') }}" class="flex min-w-0 items-center" title="{{ $settings->site_name ?? 'Nimtech' }}">
+                    <span class="nimtech-logo-mark" aria-hidden="true">N</span>
+                    <span class="truncate text-2xl font-bold tracking-tight leading-none">nimtech.co.ke</span>
                 </a>
                 @auth
                     @if(auth()->user()->isAdmin())
-                        <a class="hidden rounded bg-gray-100 px-2 py-1 text-xs md:inline-flex" href="{{ route('admin.dashboard') }}">Admin</a>
+                        <a class="hidden rounded bg-gray-100 px-2 py-1 text-xs lg:inline-flex" href="{{ route('admin.dashboard') }}">Admin</a>
                     @endif
                 @endauth
             </div>
-            <div class="order-3 col-span-12 md:order-none md:col-span-4">
-                <form action="{{ route('products.index') }}" method="GET" class="relative w-full">
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Search products..." class="h-11 w-full rounded-full border border-gray-300 bg-white pl-4 pr-11 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-500" />
-                    <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M10.5 3a7.5 7.5 0 105.236 12.764l3.75 3.75a.75.75 0 101.06-1.06l-3.75-3.75A7.5 7.5 0 0010.5 3zm-6 7.5a6 6 0 1110.91 3.546.75.75 0 00-.126.126A6 6 0 014.5 10.5z" clip-rule="evenodd" /></svg></button>
-                </form>
-            </div>
-            <nav class="col-span-5 flex items-center justify-end gap-3 text-sm md:col-span-5">
-                <a class="hover:underline" href="{{ route('seo.phones') }}">Phones</a>
-                <a class="hover:underline" href="{{ route('seo.laptops') }}">Laptops</a>
-                <a class="hover:underline" href="{{ route('deals.index') }}">Deals</a>
-                <a class="hover:underline" href="{{ route('products.index') }}">Products</a>
-                <a class="hover:underline" href="{{ route('brands.index') }}">Brands</a>
-                @php($__cartCount = array_sum(\App\Support\Cart::all()))
-                <a class="relative hover:underline flex items-center gap-1" href="{{ route('cart.index') }}">
-                    <span>Cart</span>
-                    @if($__cartCount > 0)
-                      <span class="inline-flex items-center justify-center text-[10px] leading-none bg-red-600 text-white rounded-full w-4 h-4">{{ min($__cartCount, 99) }}</span>
-                    @endif
-                </a>
+
+            <form action="{{ route('products.index') }}" method="GET" class="nimtech-header-search" role="search">
+                <label class="sr-only" for="header-category">Product category</label>
+                <select id="header-category" name="category" class="nimtech-search-category" aria-label="Product category">
+                    <option value="">All Categories</option>
+                    @foreach($__headerCategories as $__category)
+                        <option value="{{ $__category->canonical_slug }}" @selected(request('category') === $__category->canonical_slug)>{{ $__category->name }}</option>
+                    @endforeach
+                </select>
+                <label class="sr-only" for="header-product-search">Search products</label>
+                <input id="header-product-search" type="search" name="q" value="{{ request('q') }}" placeholder="Search for products" class="nimtech-search-field" />
+                <button class="nimtech-search-button" type="submit">Search</button>
+            </form>
+
+            <div class="nimtech-header-actions">
+                @if($topPhone !== '')
+                    <a href="tel:{{ $topPhoneHref }}" class="nimtech-header-action">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-2a8 8 0 0 1 16 0v2M4 13a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2v-7H4Zm16 0a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2v-7h2Z"/></svg>
+                        <span><small>Need Help?</small><strong>{{ $topPhone }}</strong></span>
+                    </a>
+                @endif
                 @auth
-                  <div class="relative" x-data="{open:false}" @keydown.escape.window="open=false" @click.outside="open=false">
-                    <button @click="open=!open" class="px-2 py-1 border rounded inline-flex items-center gap-1" :aria-expanded="open ? 'true' : 'false'">
-                      {{ auth()->user()->name }}
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"><path fill-rule="evenodd" d="M12 14.25a.75.75 0 01-.53-.22l-4.5-4.5a.75.75 0 111.06-1.06L12 12.44l3.97-3.97a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-.53.22z" clip-rule="evenodd"/></svg>
-                    </button>
-                    <div
-                      x-cloak
-                      x-show="open"
-                      x-transition.opacity.scale.origin-top-right
-                      class="absolute right-0 mt-2 bg-white border rounded shadow text-sm w-40 z-50"
-                    >
-                       <a class="block px-3 py-2 hover:bg-gray-50" href="{{ route('dashboard') }}">Dashboard</a>
-                       <form method="POST" action="{{ route('logout') }}">
-                         @csrf
-                         <button class="w-full text-left px-3 py-2 hover:bg-gray-50">Logout</button>
-                       </form>
-                     </div>
-                   </div>
+                    <a href="{{ route('dashboard') }}" class="nimtech-header-action">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/></svg>
+                        <span><small>My Account</small><strong>{{ \Illuminate\Support\Str::limit(auth()->user()->name, 14) }}</strong></span>
+                    </a>
                 @else
-                  <a class="hover:underline" href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('login') }}" class="nimtech-header-action">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/></svg>
+                        <span><small>My Account</small><strong>Login</strong></span>
+                    </a>
                 @endauth
-            </nav>
+                <a href="{{ route('cart.index') }}" class="nimtech-header-action">
+                    <span class="nimtech-cart-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h2l2.2 11h11.9l2-8H5M8 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+                        <b>{{ min($__cartCount, 99) }}</b>
+                    </span>
+                    <span><small>My Cart</small><strong>{{ currency_format($__cartSubtotal) }}</strong></span>
+                </a>
+            </div>
         </div>
     </header>
     @include('theme::partials.header-categories')
