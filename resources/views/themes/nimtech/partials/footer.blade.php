@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+  <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
     <div>
       <div class="font-semibold mb-2 text-white">{{ $settings->site_name ?? config('app.name', 'Shoply') }}</div>
       @if($settings)
@@ -24,20 +24,26 @@
     </div>
 
     <div>
-      <div class="font-semibold mb-2 text-white">Help</div>
+      <div class="font-semibold mb-2 text-white">Shop</div>
+      <ul class="space-y-1.5 text-slate-400">
+        <li><a class="hover:text-white hover:underline" href="{{ route('products.index') }}">All Products</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('seo.phones') }}">Phones</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('seo.laptops') }}">Laptops</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('brands.index') }}">Shop by Brand</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('seo.updated') }}">Latest Price Updates</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('seo.compare') }}">Compare Products</a></li>
+        <li><a class="hover:text-white hover:underline" href="{{ route('cart.index') }}">Your Cart</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="font-semibold mb-2 text-white">Buying Guides</div>
       <ul class="space-y-1.5 text-slate-400">
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.catalog', 'phone-prices-in-kenya') }}">Live Phone Prices</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.catalog', 'laptop-prices-in-kenya') }}">Live Laptop Prices</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('seo.updated') }}">Recently Updated Prices</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('seo.compare') }}">Compare Products</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('seo.phones') }}">Phones in Kenya</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('seo.laptops') }}">Laptops in Kenya</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.iphone-kenya') }}">iPhone in Kenya</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.samsung-kenya') }}">Samsung Phones Kenya</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.hp-laptops-kenya') }}">HP Laptops Kenya</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('products.index') }}">Browse Products</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('brands.index') }}">Shop by Brand</a></li>
-        <li><a class="hover:text-white hover:underline" href="{{ route('cart.index') }}">Your Cart</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.dell-laptops-kenya') }}">Dell Laptops Kenya</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.lenovo-laptops-kenya') }}">Lenovo Laptops Kenya</a></li>
         <li><a class="hover:text-white hover:underline" href="{{ route('seo.xiaomi-phones-kenya') }}">Xiaomi Phones Kenya</a></li>
